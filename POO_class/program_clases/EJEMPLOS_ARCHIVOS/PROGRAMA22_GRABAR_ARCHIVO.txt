@@ -1,0 +1,58 @@
+//GRABAR ARCHIVO
+//import java.lang.*;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+class prog22 {
+
+public static void main(String[] args) {
+
+	//crear un objeto de tipo archivo
+	
+	DataOutputStream archivo = null;
+	
+	//creando e inicializando los campos del registro
+	//observar que se debe usar clases numericas apropiadas
+	
+	int clave=0;
+	String nombre=new String("");
+	int edad=0;
+	
+	//creando objeto teclado
+	
+	BufferedReader teclado = new BufferedReader(new InputStreamReader(System.in));
+	
+	//abriendo archivo, capturando y grabando datos
+	
+	try {
+	
+	//* Creando y grabando a un archivo, esta larga la instrucción*/
+	
+		archivo = new DataOutputStream( new FileOutputStream("c:\\Temporal\\archivo1.txt",true) );
+		System.out.println("Ingrese la Clave: ");
+		clave = Integer.parseInt(teclado.readLine());
+		System.out.println("Ingrese el Nombre: ");
+		nombre=teclado.readLine();
+		System.out.println("Ingrese la Edad: ");
+		edad = Integer.parseInt(teclado.readLine());
+		
+		//grabando al archivo
+		archivo.writeInt(clave);
+		archivo.writeUTF(nombre);
+		archivo.writeInt(edad);
+		
+		//Cierra el Archivo
+		archivo.close();
+		System.out.println("USTED ACABA DE INGRESAR UN REGISTRO");
+	}
+	
+	catch(FileNotFoundException fnfe) { /* Archivo no encontrado */ }
+	catch (IOException ioe) { /* Error al escribir */ }
+	
+	} // cierra main
+} // cierra clase

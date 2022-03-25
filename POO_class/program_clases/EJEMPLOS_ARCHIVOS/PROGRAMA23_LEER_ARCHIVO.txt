@@ -1,0 +1,47 @@
+//LEER ARCHIVO
+
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+class prog23 {
+
+public static void main(String[] args) {
+
+	//crear un objeto de tipo archivo
+	
+	DataInputStream archivo = null;
+	
+	//creando e inicializando los campos del registro
+	//observar que se debe usar clases numericas apropiadas
+	
+	int clave=0;
+	String nombre=new String("");
+	int edad=0;
+	
+	try{
+	
+	//* abriendo archivo para lectura */
+	
+		archivo = new DataInputStream( new FileInputStream("c:\\Temporal\\archivo1.txt") );
+	
+	//leyendo archivo
+	System.out.println("ESTE ES EL ARCHIVO ");
+	while (true)
+	{
+		clave=archivo.readInt();			
+		System.out.println("CLAVE: "+clave+" ");
+		nombre=archivo.readUTF();
+		System.out.println("NOMBRE: "+nombre+" ");
+		edad=archivo.readInt();
+		System.out.println("EDAD: "+edad+" ");
+		System.out.println('\n');
+	} 
+   }
+	
+	catch(FileNotFoundException fnfe) { /* Archivo no encontrado */ }
+	catch (IOException ioe) { /* Error al escribir */ }
+	
+	} // cierra main
+} // cierra clase

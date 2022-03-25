@@ -1,0 +1,134 @@
+//EJERCICIO QUIZ No 3
+
+abstract class Producto
+{
+	public static int codigo;	
+	public static String nombre;
+	
+	public Producto(int codigo,String nombre)
+	{
+		this.codigo = codigo;
+		this.nombre = nombre;	
+	}
+	
+	abstract public int obtenerPrecio();
+	abstract public int obtenerCosto(); 
+}
+
+abstract class ProdPerecible extends Producto
+{
+	abstract public double obtenerDiasBodega();
+	abstract public double obtenerDiasEstante();
+	
+	public ProdPerecible(int codigo,String nombre)
+	{
+		super(codigo,nombre);
+	}
+		
+	public int obtenerPrecioMinimo()
+	{
+		double f = 0.253 * obtenerDiasEstante(); 
+		f += 0.145 * obtenerDiasBodega();	
+		f *= (double) obtenerCosto();
+		
+		return (int) Math.round(f);
+	}
+}
+
+class Fruta extends ProdPerecible
+{
+	public static double promDiasBodega = 1.45;
+	public static double promDiasEstante = 3.20;
+	public static int costo;
+	
+	public double ventaPromedioDiaria; 
+	
+	public Fruta(int codigo,String nombre,int costo,double ventaPromDiaria)
+	{
+		super(codigo,nombre);	
+		this.costo = costo;
+		this.ventaPromedioDiaria = ventaPromDiaria;
+	}
+	
+	
+	public double obtenerDiasBodega()
+	{
+		return promDiasBodega;	
+	}
+	
+	public double obtenerDiasEstante()
+	{
+		return promDiasEstante;
+	}
+
+	public int obtenerCosto()
+	{
+		return costo;	
+	} 
+	
+	public int obtenerPrecio()
+	{
+		return (int) Math.round(obtenerPrecioMinimo() * 1.25);	
+	}	
+
+	public double ventaDiariaPromedio()
+	{
+		return ventaPromedioDiaria;	
+	}
+
+}
+
+
+
+class pruebaProducto
+{
+	
+	public static void impAccesosProducto(Producto p)
+	{
+		System.out.print("\tproducto : " + p.nombre);
+		System.out.println("\t\tcodigo : " + p.codigo);	
+		System.out.print("\tcosto : " + p.obtenerCosto());
+		System.out.println("\t\t\tprecio venta : " + p.obtenerPrecio());		
+	}
+	
+	public static void impAccesosProdPerecible(ProdPerecible p)
+	{
+		impAccesosProducto(p);
+		
+		System.out.print("\tdias bodega : " + p.obtenerDiasBodega());
+		System.out.println("\t\tdias estante : " + p.obtenerDiasEstante());
+		System.out.print("\tprecio minimo : " + p.obtenerPrecioMinimo());
+	}
+	
+	public static void impAccesosFruta(Fruta p)
+	{
+		impAccesosProdPerecible(p);
+		System.out.println("\t\tventa (diaria) : " + p.ventaDiariaPromedio() + " kg.");	
+	}
+	
+	public static void main(String arg[])
+	{
+		System.out.println("\n\tACCESOS DE PRODUCTO");
+		  System.out.println("\t-------------------\n");
+		
+		Producto kgNaranja = new Fruta(3500,"kg. naranja",215,1067.8);
+		
+		impAccesosProducto(kgNaranja);
+		
+		System.out.println("\n\tACCESOS DE PRODUCTO PERECIBLE");
+		  System.out.println("\t-----------------------------\n");
+		
+		ProdPerecible kgManzana = new Fruta(2100,"kg. manzana",240,946.2);
+		
+		impAccesosProdPerecible(kgManzana);
+		
+		System.out.println("\n\n\tACCESOS DE FRUTA");
+		    System.out.println("\t----------------\n");
+		
+		Fruta kgPera = new Fruta(3200,"kg. pera",250,788.5);
+		
+		impAccesosFruta(kgPera);
+	
+		System.out.println();
+	}	
+}

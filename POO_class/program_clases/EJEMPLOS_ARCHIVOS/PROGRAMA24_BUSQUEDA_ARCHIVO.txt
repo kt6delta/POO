@@ -1,0 +1,69 @@
+//BUSQUEDA EN ARCHIVO
+
+import java.io.*;
+
+class prog24 {
+public static void main(String[] args) {
+
+	//crear un objeto de tipo archivo
+	
+	DataInputStream archivo = null;
+	
+	//atributos
+	
+	int clave=0;	
+	int clavebuscar=0;	
+	String nombre="";	
+	int edad=0;	
+	int temporal=0;
+	
+	//capturando clave a buscar
+	
+	//creando un objeto llamado teclado especializado en capturas
+	
+	BufferedReader teclado = new BufferedReader(new InputStreamReader(System.in));
+	
+	//capturando datos
+	
+	try {
+	
+		System.out.println("POR FAVOR INGRESE LA Clave A BUSCAR: ");
+		
+		clavebuscar = Integer.parseInt(teclado.readLine());
+	
+	} catch(IOException variablerror) {System.out.println("error de captura "); }
+	
+	//* abriendo archivo para lectura */
+	
+	try{
+	
+		archivo = new DataInputStream( new FileInputStream("c:\\Temporal\\archivo1.txt") );
+	
+	//leyendo archivo
+		
+	while (true)
+	{
+			clave=archivo.readInt();
+			nombre=archivo.readUTF();
+			edad=archivo.readInt();	
+			
+			if (clavebuscar==clave){
+				System.out.println("EL REGISTRO BUSCADO ES");
+				System.out.println("CLAVE: "+clave+" ");
+				System.out.println("NOMBRE: "+nombre+" ");
+				System.out.println("EDAD: "+edad+" ");
+				System.out.println('\n');
+				temporal=temporal+1;
+			 }			
+	   }
+	}
+	
+	catch(FileNotFoundException fnfe) { /* Archivo no encontrado */ }
+	catch (IOException ioe) { /* Error al escribir */ }
+	
+	//Caso contrario de existir
+	   if(temporal==0){
+		 System.out.println("EL REGISTRO NO EXISTE");
+	  }		
+	} // cierra main
+} // cierra clase

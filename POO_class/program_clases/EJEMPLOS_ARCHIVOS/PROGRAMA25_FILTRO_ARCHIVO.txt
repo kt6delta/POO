@@ -1,0 +1,67 @@
+//FILTRO EN ARCHIVOS
+
+import java.io.*;
+
+class prog25 {
+
+public static void main(String[] args) {
+
+	//crear un objeto de tipo archivo
+	
+	DataInputStream archivo = null;
+	
+	//variables	
+	int clave=0;
+	String nombre="";
+	int edad=0;
+	int edadfiltro=0;
+	int temporal=0;
+	
+	//capturando condicion
+	//creando un objeto llamado teclado especializado en capturas
+	
+	BufferedReader teclado = new BufferedReader(new InputStreamReader(System.in));
+	
+	//capturando datos
+	
+	try {
+	
+		System.out.print("EDAD >= : ");
+		
+		edadfiltro = Integer.parseInt(teclado.readLine());
+	
+	} catch(IOException variablerror) {System.out.println("error de captura "); }
+	
+	//* abriendo archivo para lectura */
+	
+	try{
+		archivo = new DataInputStream( new FileInputStream("c:\\Temporal\\archivo1.txt") );
+	
+	//leyendo archivo
+	//Bucle infinito recorriendo el archivo
+	while (true) 
+	{
+		clave=archivo.readInt();	
+		nombre=archivo.readUTF();
+		edad=archivo.readInt();
+		
+		if (edad >= edadfiltro)
+		{
+			System.out.print("Clave "+clave+" \n");	
+			System.out.print("Nombre "+nombre+" \n");
+			System.out.print("Edad "+edad+" \n");
+			System.out.print('\n');
+			temporal=temporal+1;
+		}	
+	 }
+	}
+	
+	catch(FileNotFoundException fnfe) { /* Archivo no encontrado */ }
+	catch (IOException ioe) { /* Error al escribir */ }
+	
+	//Caso contrario de edad >= edadfiltro
+	   if(temporal==0){
+		 System.out.print("No hay personas mayores a "+edadfiltro);
+	  }	
+ } // cierra main
+} // cierra clase

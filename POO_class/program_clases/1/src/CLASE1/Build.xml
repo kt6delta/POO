@@ -1,0 +1,93 @@
+<project name="Tutoria Virtual 1" default="run" basedir=".">
+	<description>
+		Ejemplo de ANT
+    </description>
+
+	<!-- set global properties for this build -->
+	<property name="src" location="src" />
+	<property name="docs" location="docs" />
+	<property name="javadoc" location="javadoc" />
+	<property name="bin" location="bin" />
+	<property name="bintests" location="bintests" />
+	<property name="reports" location="reports" />
+	<property name="lib" location="lib" />
+	<property name="build" location="build" />
+	<property name="dist" location="dist" />
+	<property name="bin" location="bin" />
+	<property name="bintests" location="bintests" />
+
+	<property name="jarname" value="Libreria.jar" />
+	<property name="mainclass" value="ui.FrmPrincipal" />
+	<property name="run.args" value="" />
+
+	<target name="clean" description="clean up">
+		<echo>Clean</echo>
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}" />
+		<delete dir="${bin}" />
+		<delete dir="${bintests}}" />
+		<delete dir="${dist}" />
+		<delete dir="${lib}" />
+		<delete dir="${javadoc}" />
+
+	</target>
+
+	<target name="init" depends="clean">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compile -->
+
+		<mkdir dir="${bin}" />
+		<mkdir dir="${bintests}" />
+		<mkdir dir="${build}" />
+		<mkdir dir="${dist}" />
+		<mkdir dir="${docs}" />
+		<mkdir dir="${javadoc}" />
+		<mkdir dir="${reports}" />
+		<mkdir dir="${bintests}" />
+
+	</target>
+
+	<target name="compile" depends="init" description="compile the source ">
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac srcdir="${src}" destdir="${bin}" />
+		<javac srcdir="${src}" destdir="${build}" />
+	</target>
+
+	<target name="dist" depends="compile" description="generate the distribution">
+		<!-- Create the distribution directory -->
+		<mkdir dir="${lib}" />
+		<jar jarfile="${lib}/${jarname}" basedir="${build}" />
+		<jar jarfile="${bin}/${jarname}" basedir="${build}">
+			<manifest>
+				<attribute name="Main-Class" value="${mainclass}" />
+			</manifest>
+		</jar>
+	</target>
+	<target name="javadoc" depends="dist" description="generate the documentation">
+		<javadoc packagenames="src" sourcepath="${src}" destdir="${javadoc}">
+			<!-- Define which files / directory should get included, we include all -->
+			<fileset dir="${src}">
+				<include name="**" />
+			</fileset>
+		</javadoc>
+	</target>
+
+	<target name="run" depends="javadoc" description="run the application">
+		<java dir="${bin}" classname="${mainclass}" fork="yes">
+			<sysproperty key="DEBUG" value="true"/>
+			<classpath>
+				<pathelement location="." />
+				<pathelement location="${src}" />
+				<pathelement location="${bin}" />
+				<pathelement location="${bin}/${jarname}" />
+				<pathelement location="${build}" />
+				<pathelement location="org.eclipse.jdt.launching.JRE_CONTAINER" />
+				<pathelement path="${java.class.path}" />
+			</classpath>
+			<arg line="${run.args}" />
+		</java>
+	</target>
+</project>
+
+
